@@ -92,6 +92,9 @@ function App() {
   const [operation, setOperation] = useState(null);
   const [overwrite, setOverwrite] = useState(true); // replace display on next digit
 
+  // Memory state (persist only in component state)
+  const [memoryValue, setMemoryValue] = useState(0);
+
   const inError = isError(currentInput);
   const isInitialState = currentInput === '0' && !previousValue && !operation;
   const clearLabel = isInitialState ? 'AC' : 'C';
@@ -230,6 +233,72 @@ function App() {
     setOverwrite(true);
   };
 
+  /**
+   * Apply square root to the current input.
+   * - If current input is negative or NaN, show 'Error' and clear op flags.
+   * - If valid, replace current input with sqrt(value), keep prev/op unchanged.
+   * - Set overwrite=true so next digit replaces the result.
+   */
+  const handleSqrt = () => {
+    const val = parseFloat(currentInput);
+    if (!isFinite(val) || isNaN(val) || val < 0) {
+      setCurrentInput('Error');
+      setPreviousValue(null);
+      setOperation(null);
+      setOverwrite(true);
+      return;
+    }
+    const result = Math.sqrt(val);
+    setCurrentInput(formatResult(result));
+    setOverwrite(true);
+  };
+
+  /**
+   * Handle memory keys.
+   * Actions:
+   * - MC: clear memory to 0
+   * - MR: recall memory into current input and set overwrite=true
+   * - M+: add current value to memory (ignored if Error/NaN)
+   * - M-: subtract current value from memory (ignored if Error/NaN)
+   * - MS: store current value to memory (ignored if Error/NaN)
+   */
+  const handleMemory = (action) => {
+    switch (action) {
+      case 'MC': {
+        setMemoryValue(0);
+        break;
+      }
+      case 'MR': {
+        setCurrentInput(formatResult(memoryValue));
+        setOverwrite(true);
+        break;
+      }
+      case 'M+': {
+        if (inError) return;
+        const val = parseFloat(currentInput);
+        if (!isFinite(val) || isNaN(val)) return;
+        setMemoryValue((prev) => roundToPrecision(prev + val, 10));
+        break;
+      }
+      case 'M-': {
+        if (inError) return;
+        const val = parseFloat(currentInput);
+        if (!isFinite(val) || isNaN(val)) return;
+        setMemoryValue((prev) => roundToPrecision(prev - val, 10));
+        break;
+      }
+      case 'MS': {
+        if (inError) return;
+        const val = parseFloat(currentInput);
+        if (!isFinite(val) || isNaN(val)) return;
+        setMemoryValue(val);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
   // Keyboard support
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -265,6 +334,12 @@ function App() {
         handlePercent();
         return;
       }
+      // Sqrt shortcut (optional minimum support)
+      if (key === 'r' || key === 'R') {
+        e.preventDefault();
+        handleSqrt();
+        return;
+      }
       // Operators
       const mapped = mapKeyToOperator(key);
       if (mapped) {
@@ -282,7 +357,7 @@ function App() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentInput, previousValue, operation, overwrite, inError]);
+  }, [currentInput, previousValue, operation, overwrite, inError, memoryValue]);
 
   const handleButtonAction = (type, payload) => {
     switch (type) {
@@ -310,6 +385,12 @@ function App() {
       case 'percent':
         handlePercent();
         break;
+      case 'sqrt':
+        handleSqrt();
+        break;
+      case 'memory':
+        handleMemory(payload);
+        break;
       default:
         break;
     }
@@ -331,6 +412,68 @@ function App() {
           >
             {displayValue}
           </div>
+        </div>
+
+        {/* Memory buttons row */}
+        <div className="memory-row" role="group" aria-label="Memory keys">
+          <button
+            type="button"
+            className="btn control"
+            aria-label="Memory clear"
+            onClick={() => handleButtonAction('memory', 'MC')}
+            title="MC"
+          >
+            MC
+          </button>
+          <button
+            type="button"
+            className="btn control"
+            aria-label="Memory recall"
+            onClick={() => handleButtonAction('memory', 'MR')}
+            title="MR"
+          >
+            MR
+          </button>
+          <button
+            type="button"
+            className="btn control"
+            aria-label="Memory add"
+            onClick={() => handleButtonAction('memory', 'M+')}
+            title="M+"
+          >
+            M+
+          </button>
+          <button
+            type="button"
+            className="btn control"
+            aria-label="Memory subtract"
+            onClick={() => handleButtonAction('memory', 'M-')}
+            title="M-"
+          >
+            M-
+          </button>
+          <button
+            type="button"
+            className="btn control"
+            aria-label="Memory store"
+            onClick={() => handleButtonAction('memory', 'MS')}
+            title="MS"
+          >
+            MS
+          </button>
+        </div>
+
+        {/* Function row: square root */}
+        <div className="function-row" role="group" aria-label="Function keys">
+          <button
+            type="button"
+            className="btn control sqrt-btn"
+            aria-label="Square root"
+            title="Square root"
+            onClick={() => handleButtonAction('sqrt')}
+          >
+            √
+          </button>
         </div>
 
         <div className="button-grid" role="group" aria-label="Calculator keys">

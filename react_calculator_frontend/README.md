@@ -7,6 +7,14 @@ A clean, minimalist calculator built with React (Create React App) using a Pure 
 - Standard operations: +, −, ×, ÷
 - Digits 0–9 and decimal input
 - Equals (=), Clear (C/AC), Delete (⌫), Sign toggle (+/-), Percent (%)
+- Square root (√) applied to current input
+  - Negative or invalid input shows “Error” and clears operation flags
+- Memory functions:
+  - MC: Clear memory (sets memory to 0)
+  - MR: Recall memory to the display (and sets overwrite mode)
+  - M+: Add current value to memory (ignored if “Error”/NaN)
+  - M-: Subtract current value from memory (ignored if “Error”/NaN)
+  - MS: Store current value into memory (ignored if “Error”/NaN)
 - Chaining behavior (e.g., 2 + 3 × 4)
 - Percent semantics:
   - Standalone: x → x/100
@@ -20,6 +28,7 @@ A clean, minimalist calculator built with React (Create React App) using a Pure 
   - Escape (Clear)
   - Period (.)
   - Percent (%)
+  - r (sqrt)
 - Accessible: ARIA labels, high-contrast focus outlines
 - Minimalist Pure White theme with subtle shadow and rounded corners
 
@@ -45,6 +54,14 @@ Lightweight tests cover:
 - `1.2 + 3.4 = 4.6`
 - Division by zero → `Error`
 - Clear resets to `0`
+- Square root:
+  - `√(9) = 3`
+  - `√(2) = 1.4142135624` (trimmed precision)
+  - `√(-9) → Error`
+- Memory:
+  - `MS` then `MR` roundtrip
+  - `M+` and `M-` accumulation
+  - `MC` clears memory
 
 ## Theme
 

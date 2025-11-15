@@ -54,6 +54,21 @@
   color: var(--color-error);
 }
 
+/* Memory and function rows */
+.memory-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin: 8px 0 4px 0;
+}
+
+.function-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 8px 0;
+}
+
 .button-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -117,6 +132,11 @@
   color: var(--color-primary);
 }
 
+/* Optional: slightly highlight sqrt control */
+.sqrt-btn {
+  border-color: rgba(55, 65, 81, 0.18);
+}
+
 @media (max-width: 400px) {
   .calculator {
     margin: 12px;
@@ -124,5 +144,9 @@
   }
   .current-value {
     font-size: 2rem;
+  }
+  .memory-row {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
   }
 }
