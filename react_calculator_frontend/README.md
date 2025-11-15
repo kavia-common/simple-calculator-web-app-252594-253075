@@ -1,82 +1,60 @@
-# Lightweight React Template for KAVIA
+# Minimalist React Calculator
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A clean, minimalist calculator built with React (Create React App) using a Pure White theme.
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Standard operations: +, −, ×, ÷
+- Digits 0–9 and decimal input
+- Equals (=), Clear (C/AC), Delete (⌫), Sign toggle (+/-), Percent (%)
+- Chaining behavior (e.g., 2 + 3 × 4)
+- Percent semantics:
+  - Standalone: x → x/100
+  - With operator: previous × current / 100
+- Divide-by-zero shows “Error” until cleared
+- Keyboard support:
+  - Digits 0–9
+  - Operators: +, -, *, /
+  - Enter/Return (=)
+  - Backspace (⌫)
+  - Escape (Clear)
+  - Period (.)
+  - Percent (%)
+- Accessible: ARIA labels, high-contrast focus outlines
+- Minimalist Pure White theme with subtle shadow and rounded corners
 
 ## Getting Started
 
-In the project directory, you can run:
+In the project directory:
 
 ### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Runs the app in development mode.
+Open http://localhost:3000 to view it in your browser.
 
 ### `npm test`
-
-Launches the test runner in interactive watch mode.
+Launches the test runner.
 
 ### `npm run build`
+Builds the app for production to the `build` folder.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Tests
 
-## Customization
+Lightweight tests cover:
+- Initial display shows `0`
+- `7 + 5 = 12`
+- `1.2 + 3.4 = 4.6`
+- Division by zero → `Error`
+- Clear resets to `0`
 
-### Colors
+## Theme
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+The Minimalist Pure White theme uses these colors:
+- Primary: `#374151`
+- Secondary: `#9CA3AF`
+- Success: `#10B981`
+- Error: `#EF4444`
+- Background: `#FFFFFF`
+- Surface: `#F9FAFB`
+- Text: `#111827`
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+CSS variables are defined in `src/index.css` and consumed in `src/App.css`.

@@ -1,13 +1,42 @@
+/* Theme variables: Minimalist Pure White */
+:root {
+  --color-primary: #374151;   /* primary */
+  --color-secondary: #9CA3AF; /* secondary */
+  --color-success: #10B981;   /* success */
+  --color-error: #EF4444;     /* error */
+  --color-bg: #FFFFFF;        /* background */
+  --color-surface: #F9FAFB;   /* surface */
+  --color-text: #111827;      /* text */
+}
+
+/* Minimal resets and base typography */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--color-bg);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+button {
+  font-family: inherit;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
